@@ -44,7 +44,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
     const whereClause: FilterQuery<TMongoose> =
     field && whereField ? { [whereField]: field } as FilterQuery<TMongoose> : {}
     const doc = await this.model.findOne(whereClause).exec()
-    if (!doc) throwError(`${this.modelName} not found`, 404)
+    if (!doc) throwError(`${this.modelName} not found`,404)
     return {
       message: `${this.modelName} field retrieved succesfully`,
       results: this.parser(doc)
@@ -93,7 +93,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
 
   async delete (id: string | number): Promise<IRepositoryResponse<string>> {
     const doc = await this.model.findByIdAndDelete(id.toString()).exec()
-    if (!doc) throwError(`${this.modelName} not found`, 404)
+    if (!doc) throwError(`${this.modelName} not found`,404)
     return {
       message: `${this.modelName} item deleted successfully`,
       results: ''
