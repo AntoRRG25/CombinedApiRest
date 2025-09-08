@@ -1,0 +1,33 @@
+  {
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Projects */
+    /*Projects*/
+    "incremental": true,
+    // "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo",
+    /* Language and Environment */
+    "target": "ESNext",
+    "module": "NodeNext",
+    "removeComments": true,
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true /* Allow 'import x from y' when a module doesn't have a default export. */,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src", "Schemas", "index.ts", "src/@types/index.d.ts", "Models/index.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "**/*.test.ts",
+    "**/*.help.ts"
+  ]
+}
