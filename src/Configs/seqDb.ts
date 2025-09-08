@@ -20,7 +20,7 @@ const { User } = sequelize.models
 async function startUp (syncDb: boolean = false, rewrite: boolean = false) {
   try {
     await sequelize.authenticate()
-    if (envConfig.Status !== 'production' && syncDb === true) {
+    if (envConfig.Status !== 'production' && syncDb) {
       try {
         await sequelize.sync({ force: rewrite })
         console.log(`🧪 Synced database: "force ${rewrite}"`)
