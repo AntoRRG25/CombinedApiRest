@@ -4,7 +4,7 @@ import {resetDatabase, closeMongoDb} from './mongoDb.ts'
 import {startUp, closeDatabase, User} from './seqDb.ts'
 import Catalog from '../../Schemas/catalog.ts'
 
-describe('EnvDb test.', () => { 
+describe('EnvDb test', () => { 
   beforeAll(async()=>{
     await startUp(true, true)
     await resetDatabase()

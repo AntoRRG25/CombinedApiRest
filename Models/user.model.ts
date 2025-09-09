@@ -8,14 +8,14 @@ export interface UserAttributes {
   password: string
   nickname?: string | null
   name?: string | null
-  image?: string | null
+  picture?: string | null
   enabled: boolean
 }
 
 // Atributos opcionales al crear (por ejemplo `id` lo genera Sequelize)
 export type UserCreationAttributes = Optional<
 UserAttributes,
-'id' | 'nickname' | 'name' | 'image' | 'enabled'
+'id' | 'nickname' | 'name' | 'picture' | 'enabled'
 >
 
 // Definición de la clase User tipada
@@ -27,7 +27,7 @@ export class User
   declare password: string
   declare nickname: string | null
   declare name: string | null
-  declare image: string | null
+  declare picture: string | null
   declare enabled: boolean
 }
 
@@ -57,7 +57,7 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      image: {
+      picture: {
         type: DataTypes.STRING,
         allowNull: true
       },

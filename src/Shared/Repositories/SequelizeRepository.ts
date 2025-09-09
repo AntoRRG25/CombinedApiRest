@@ -1,9 +1,9 @@
 import type { Model, FindOptions, ModelStatic, Order } from 'sequelize'
-import type { IBaseRepository, IRepositoryResponse, IPaginatedOptions, IPaginatedResults } from '../Interfaces/base.interface.js'
+import type { IBaseRepository, IRepositoryResponse, IPaginatedOptions, IPaginatedResults, Direction } from '../Interfaces/base.interface.js'
 import { throwError } from '../../Configs/errorHandlers.js'
 
 export class SequelizeRepository<
-  TDTO, TCreate, TUpdate extends Model<any, any>,
+  TDTO, TCreate, TUpdate = Partial<TCreate>,
 > implements IBaseRepository<TDTO, TCreate, TUpdate> {
   constructor (
     private readonly Model: ModelStatic<Model>,
@@ -33,17 +33,26 @@ export class SequelizeRepository<
 
     const offset = (page - 1) * limit
 
+    // 🔽 Transformar Record<keyof TDTO, Direction> en [['field', 'ASC']]
+    const orderClause = options?.order
+      ? (Object.entries(options.order).map(([field, dir]) => [
+          field,
+          dir === 1 ? 'ASC' : dir === -1 ? 'DESC' : dir
+        ]) as Array<[string, 'ASC' | 'DESC']>)
+      : undefined
+
     const { rows, count } = await this.Model.findAndCountAll({
       where: whereClause,
       offset,
       limit,
       distinct: true,
-      order: options?.order ? [[options.order?.field as string, options.order?.direction]] as Order : undefined
+      order: orderClause
+      // order: options?.order ? [[options.order?.field as string, options.order?.direction]] as Order : undefined
     })
 
     const data = rows.map(this.parserFn)
     return {
-      message: `${limit} ${this.Model.name.toLowerCase()} records retrieved successfully`,
+      message: `Total records: ${count}. ${this.Model.name}s retrieved successfully`,
       info: {
         total: count,
         page,
@@ -99,7 +108,7 @@ export class SequelizeRepository<
   async update (id: string | number, data: TUpdate): Promise<IRepositoryResponse<TDTO>> {
     const model = await this.Model.findByPk(id)
     if (!model) throwError(`${this.Model.name} not found`, 404)
-    const updated = await model.update(data as any)
+    const updated = await model.update(data as Partial<TDTO>)
     return {
       message: `${this.Model.name} record updated successfully`,
       results: this.parserFn(updated)

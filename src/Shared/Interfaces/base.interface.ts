@@ -3,7 +3,7 @@ export interface IRepositoryResponse<T> {
   results: T
 }
 export type Direction = 1 | -1 | 'ASC' | 'DESC'
-export interface IMongooseOrder<TDTO> {
+export interface Order<TDTO> {
   field: keyof TDTO
   direction: Direction
 }
@@ -12,7 +12,7 @@ export interface IPaginatedOptions<TDTO> {
   query?: Partial<Record<keyof TDTO, unknown>>
   page?: number
   limit?: number
-  order?: IMongooseOrder<TDTO>
+  order?: Partial<Record<keyof TDTO, Direction>>
 }
 
 export interface IPaginatedResults<TDTO> {
@@ -20,6 +20,7 @@ export interface IPaginatedResults<TDTO> {
   info: { total: number, page: number, limit: number, totalPages: number }
   data: TDTO[]
 }
+export type TUpdate<T> = Partial<Omit<T, 'id'>>
 export interface IBaseRepository<TDTO, TCreate, TUpdate> {
   getAll: (field?: unknown, whereField?: keyof TDTO | string) => Promise<IRepositoryResponse<TDTO[]>>
   getById: (id: string | number) => Promise<IRepositoryResponse<TDTO>>

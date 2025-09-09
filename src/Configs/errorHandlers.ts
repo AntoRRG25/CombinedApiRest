@@ -12,12 +12,12 @@ export function middError (message: string, status: number) {
 }
 export const jsonErrorHandler = (err: Error & { status?: number }, req: Request, res: Response, next: NextFunction): void => {
   if (err instanceof SyntaxError && 'status' in err && err.status === 400 && 'body' in err) {
-    return next(middError('Invalid JSON format', 400));
+    next(middError('Invalid JSON format', 400)); return
   }
   next()
 }
 export const notFoundRoute = (req: Request, res: Response, next: NextFunction): void => {
-  return next(middError('Route not Found', 404))
+  next(middError('Route not Found', 404))
 }
 
 export function mainErrorHandler (err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) {
