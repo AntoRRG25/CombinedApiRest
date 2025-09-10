@@ -26,7 +26,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
     field && whereField ? { [whereField]: field } as FilterQuery<TMongoose> : {}
     const docs = await this.model.find(whereClause).exec()
     return {
-      message: `${this.modelName}s fields retrieved succesfully`,
+      message: `${this.modelName} records retrieved successfully`,
       results: docs.map(this.parser)
     }
   }
@@ -35,7 +35,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
     const doc = await this.model.findById(id.toString()).exec()
     if (!doc) throwError(`${this.modelName} not found`, 404)
     return {
-      message: `${this.modelName} field retrieved succesfully`,
+      message: `${this.modelName} record retrieved successfully`,
       results: this.parser(doc)
     }
   }
@@ -46,7 +46,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
     const doc = await this.model.findOne(whereClause).exec()
     if (!doc) throwError(`${this.modelName} not found`, 404)
     return {
-      message: `${this.modelName} field retrieved succesfully`,
+      message: `${this.modelName} record retrieved successfully`,
       results: this.parser(doc)
     }
   }
@@ -63,7 +63,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
     ])
 
     return {
-      message: `${this.modelName}s fields retrieved succesfully`,
+      message: `Total records: ${total}. ${this.modelName}s retrieved successfully`,
       info: {
         total,
         page,
@@ -77,7 +77,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
   async create (data: TCreate): Promise<IRepositoryResponse<TDTO>> {
     const doc = await this.model.create(data)
     return {
-      message: `${this.modelName} created succesfully`,
+      message: `${this.modelName} ${this.whereField.toString()} created successfully`,
       results: this.parser(doc)
     }
   }
@@ -86,7 +86,7 @@ implements IBaseRepository<TDTO, TCreate, TUpdate> {
     const doc = await this.model.findByIdAndUpdate(id.toString(), data, { new: true }).exec()
     if (!doc) throwError(`${this.modelName} not found`, 404)
     return {
-      message: `${this.modelName} updated succesfully`,
+      message: `${this.modelName} record updated successfully`,
       results: this.parser(doc)
     }
   }

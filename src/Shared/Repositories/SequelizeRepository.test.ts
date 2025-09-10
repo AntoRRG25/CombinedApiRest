@@ -79,7 +79,6 @@ describe('SequelizeRepository unit test', () => {
          it('Should retrieve an array of paginated elements', async() => {
             const queryObject = {page:1, limit:10,}
              const response = await test.getWithPages(queryObject)
-             console.log(response)
             expect(response.message).toBe('Total records: 16. Users retrieved successfully')
             expect(response.info).toEqual({ total: 16, page: 1, limit: 10, totalPages: 2 })
             expect(response.data.length).toBe(10)
@@ -88,7 +87,6 @@ describe('SequelizeRepository unit test', () => {
          it('Should retrieve filtered and sorted elements', async() => {
             const queryObject = {page:1, limit:10,query:{enabled: false}, order: { name : 'ASC'}} as const
              const response = await test.getWithPages(queryObject)
-             console.log(response)
             expect(response.message).toBe('Total records: 3. Users retrieved successfully')
             expect(response.info).toEqual({ total: 3, page: 1, limit: 10, totalPages: 1 })
             expect(response.data.length).toBe(3)

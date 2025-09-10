@@ -1,4 +1,4 @@
-import {Schema, model, type InferSchemaType } from "mongoose";
+import {Schema, model, type InferSchemaType, type HydratedDocument } from "mongoose";
 
 
     const catalogSchema = new Schema({
@@ -10,11 +10,12 @@ import {Schema, model, type InferSchemaType } from "mongoose";
         stock:{type: Number, default: 1, required: true},
         enabled: {type: Boolean, default: true, required: true}
     },{
-        timestamps:true
+        timestamps:false
     }
 )
 export type IMongooseCatalog = InferSchemaType<typeof catalogSchema>
+export type ICatalogDocument = HydratedDocument<IMongooseCatalog>
 
-const Catalog = model<IMongooseCatalog>('Catalog', catalogSchema)
+const Catalog = model<ICatalogDocument>('Catalog', catalogSchema)
 
 export default Catalog
